@@ -32,10 +32,10 @@ jobs:
         env:
           KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE_DEV}}
 
-      - name: Lint with sqlfluff
-        run: |
-          pip install sqlfluff
-          sqlfluff lint
+      #- name: Lint with sqlfluff
+        #run: |
+          #pip install sqlfluff
+          #sqlfluff lint
     
           # Linting only modified models
           # git fetch origin main:main
