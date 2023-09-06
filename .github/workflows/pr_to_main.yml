@@ -55,3 +55,6 @@ jobs:
 
       - name: Test dbt models
         run: dbt test
+
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
