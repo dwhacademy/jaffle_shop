@@ -1,4 +1,4 @@
-jaffle_shop: # Be sure to change this to your dbt project name
+jaffle_shop: 
   target: dev
   outputs:
     dev:
