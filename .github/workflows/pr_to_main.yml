@@ -47,14 +47,8 @@ jobs:
           dbt deps
       
       # Add dbt seed or other commands here if needed
-      - name: Run dbt seed
-        run: dbt seed
-
-      - name: Run dbt models
-        run: dbt run
-
-      - name: Test dbt models
-        run: dbt test
+      - name: Run dbt build
+        run: dbt build
 
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
