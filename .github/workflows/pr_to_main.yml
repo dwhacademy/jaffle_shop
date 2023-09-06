@@ -2,7 +2,7 @@
 name: pr_to_main
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 env:
@@ -31,7 +31,7 @@ jobs:
         shell: bash
         env:
           KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE_DEV}}
-          
+
       - name: Lint with sqlfluff
         run: |
           pip install sqlfluff
