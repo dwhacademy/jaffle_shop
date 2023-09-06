@@ -3,7 +3,7 @@ name: scheduled_run
 
 on:
   schedule:
-    - cron:  '0 5,17 * * *'
+    - cron:  '30 3 * * *'
 env:
   DBT_PROFILES_DIR: ./
 
