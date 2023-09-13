@@ -56,39 +56,13 @@ jobs:
         continue-on-error: true
         env:
           WORKFLOW_FILENAME: pr_to_main.yml
-          ARTIFACT_NAME: dbt-manifest
-          ARTIFACT_FILENAME: dbt-manifest.zip
+          ARTIFACT_NAME: dbt-target
+          ARTIFACT_FILENAME: dbt-target.zip
           UNZIP_DIR: prior
         with:
           script: |
             const script = require('./scripts/download-previous-artifact.js')
             await script({github, context, core})    
-
-      - name: Download artifact
-        uses: actions/github-script@v6
-        continue-on-error: true
-        env:
-          WORKFLOW_FILENAME: pr_to_main.yml
-          ARTIFACT_NAME: dbt-run_results
-          ARTIFACT_FILENAME: dbt-run_results.zip
-          UNZIP_DIR: prior
-        with:
-          script: |
-            const script = require('./scripts/download-previous-artifact.js')
-            await script({github, context, core})   
-
-      - name: Download artifact
-        uses: actions/github-script@v6
-        continue-on-error: true
-        env:
-          WORKFLOW_FILENAME: pr_to_main.yml
-          ARTIFACT_NAME: dbt-sources
-          ARTIFACT_FILENAME: dbt-sources.zip
-          UNZIP_DIR: prior
-        with:
-          script: |
-            const script = require('./scripts/download-previous-artifact.js')
-            await script({github, context, core})   
 
       # Add dbt seed or other commands here if needed
       - name: Run dbt source freshness
@@ -98,46 +72,17 @@ jobs:
       - name: Run dbt build
         run: dbt build --select state:modified+ result:error+ source_status:fresher+ --defer --state prior
 
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
-        with:
-          name: dbt-manifest
-          path: target/manifest.json
+      # Add dbt seed or other commands here if needed
+      - name: Run dbt build
+        run: dbt docs generate
 
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: dbt-manifest
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
-        with:
-          name: dbt-run_results
-          path: target/run_results.json
-
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: dbt-run_results
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
-        with:
-          name: dbt-sources
-          path: target/sources.json
-
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: dbt-sources
-
-      - name: 'Upload Artifact'
+      - name: Upload Dbt Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dbt-target
           path: target
 
-      - name: Download a single artifact
+      - name: Download dbt artifacts
         uses: actions/download-artifact@v3
         with:
           name: dbt-target
