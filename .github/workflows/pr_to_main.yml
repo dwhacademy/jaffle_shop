@@ -18,6 +18,11 @@ jobs:
     name: pr_to_main
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+
     steps:
       - name: Check out
         uses: actions/checkout@master
@@ -46,6 +51,19 @@ jobs:
           pip install dbt-bigquery
           dbt deps
       
+      - name: Download artifact
+        uses: actions/github-script@v6
+        continue-on-error: true
+        env:
+          WORKFLOW_FILENAME: pr_to_main.yml
+          ARTIFACT_NAME: dbt-manifest
+          ARTIFACT_FILENAME: dbt-manifest.zip
+          UNZIP_DIR: tests
+        with:
+          script: |
+            const script = require('./scripts/download-previous-artifact.js')
+            await script({github, context, core})     
+
       # Add dbt seed or other commands here if needed
       - name: Run dbt build
         run: dbt build
@@ -53,10 +71,10 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: dbt-manifest
           path: target/manifest.json
 
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
-          name: my-artifact
+          name: dbt-manifest
