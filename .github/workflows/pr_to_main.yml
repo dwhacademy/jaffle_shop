@@ -40,7 +40,7 @@ jobs:
       - name: Lint with sqlfluff
         run: |
           pip install sqlfluff
-          sqlfluff lint -r --dialect bigquery -v models/
+          sqlfluff lint --dialect bigquery -v models/
     
           # Linting only modified models
           # git fetch origin main:main
@@ -51,7 +51,7 @@ jobs:
           pip install dbt-bigquery
           dbt deps
       
-      - name: Download prior artifacts
+      - name: Download Prior Dbt Artifacts
         uses: actions/github-script@v6
         continue-on-error: true
         env:
@@ -79,7 +79,7 @@ jobs:
           name: dbt-target
           path: target
 
-      - name: Download dbt artifacts
+      - name: Download Dbt Artifacts
         uses: actions/download-artifact@v3
         with:
           name: dbt-target
