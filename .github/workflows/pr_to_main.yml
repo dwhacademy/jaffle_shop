@@ -78,3 +78,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dbt-manifest
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dbt-run_results
+          path: target/run_results.json
+
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dbt-run_results
