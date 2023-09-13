@@ -77,13 +77,26 @@ jobs:
             const script = require('./scripts/download-previous-artifact.js')
             await script({github, context, core})   
 
+      - name: Download artifact
+        uses: actions/github-script@v6
+        continue-on-error: true
+        env:
+          WORKFLOW_FILENAME: pr_to_main.yml
+          ARTIFACT_NAME: dbt-sources
+          ARTIFACT_FILENAME: dbt-sources.zip
+          UNZIP_DIR: prior
+        with:
+          script: |
+            const script = require('./scripts/download-previous-artifact.js')
+            await script({github, context, core})   
+
       # Add dbt seed or other commands here if needed
       - name: Run dbt source freshness
         run: dbt source freshness
 
       # Add dbt seed or other commands here if needed
       - name: Run dbt build
-        run: dbt build --select state:modified+ --state prior
+        run: dbt build --select state:modified+ result:error+ source_status:fresher+ --defer --state prior
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
