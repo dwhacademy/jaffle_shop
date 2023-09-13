@@ -106,3 +106,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dbt-run_results
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dbt-sources
+          path: target/sources.json
+
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dbt-sources
