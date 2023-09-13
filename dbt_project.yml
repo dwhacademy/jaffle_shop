@@ -30,3 +30,9 @@ seeds:
     raw_customers:
       +column_types:
         load_dttm: timestamp
+    raw_orders:
+      +column_types:
+        load_dttm: timestamp
+    raw_payments:
+      +column_types:
+        load_dttm: timestamp
