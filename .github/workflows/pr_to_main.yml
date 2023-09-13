@@ -58,7 +58,7 @@ jobs:
           WORKFLOW_FILENAME: pr_to_main.yml
           ARTIFACT_NAME: dbt-manifest
           ARTIFACT_FILENAME: dbt-manifest.zip
-          UNZIP_DIR: tests
+          UNZIP_DIR: prior
         with:
           script: |
             const script = require('./scripts/download-previous-artifact.js')
@@ -66,7 +66,7 @@ jobs:
 
       # Add dbt seed or other commands here if needed
       - name: Run dbt build
-        run: dbt build
+        run: dbt build --select state:modified+ --state prior
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
