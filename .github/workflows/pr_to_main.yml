@@ -51,7 +51,7 @@ jobs:
           pip install dbt-bigquery
           dbt deps
       
-      - name: Download artifact
+      - name: Download prior artifacts
         uses: actions/github-script@v6
         continue-on-error: true
         env:
@@ -64,16 +64,13 @@ jobs:
             const script = require('./scripts/download-previous-artifact.js')
             await script({github, context, core})    
 
-      # Add dbt seed or other commands here if needed
       - name: Run dbt source freshness
         run: dbt source freshness
 
-      # Add dbt seed or other commands here if needed
       - name: Run dbt build
         run: dbt build --select state:modified+ result:error+ source_status:fresher+ --defer --state prior
 
-      # Add dbt seed or other commands here if needed
-      - name: Run dbt build
+      - name: Run docs generate
         run: dbt docs generate
 
       - name: Upload Dbt Artifacts
