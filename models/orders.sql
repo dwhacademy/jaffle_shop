@@ -43,7 +43,7 @@ final as (
 
         {% endfor -%}
 
-        order_payments.total_amount as amount
+        coalesce(order_payments.total_amount,0) as amount
 
     from orders
 
