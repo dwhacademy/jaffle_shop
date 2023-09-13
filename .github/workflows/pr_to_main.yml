@@ -130,3 +130,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dbt-sources
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dbt-target
+          path: target
+
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dbt-target
