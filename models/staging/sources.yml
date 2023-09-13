@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: dwhacademy
+    schema: jaffle_shop
+    loaded_at_field: load_dttm
+
+    freshness:
+      warn_after: {count: 30, period: day}
+      error_after: {count: 365, period: day}
+
+    tables:
+      - name: raw_customers
+      - name: raw_orders
+      - name: raw_payments
+    
